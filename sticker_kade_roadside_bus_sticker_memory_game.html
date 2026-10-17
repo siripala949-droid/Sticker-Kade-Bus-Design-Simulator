@@ -1,0 +1,2130 @@
+<!DOCTYPE html>
+<html lang="si" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Sticker Kade: Roadside Bus Sticker Shop — Powered by Automaker</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@800&family=Bungee&family=Gemunu+Libre:wght@700;800&family=Inter:wght@500;600;700;800;900&family=Noto+Sans+Sinhala:wght@600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    input {
+      user-select: text !important;
+      -webkit-user-select: text !important;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 0%, #1e293b 0%, #090d16 70%, #020617 100%);
+      color: #f8fafc;
+      font-family: 'Inter', 'Noto Sans Sinhala', sans-serif;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .font-arcade {
+      font-family: 'Bungee', 'Gemunu Libre', cursive;
+    }
+
+    .font-sinhala {
+      font-family: 'Noto Sans Sinhala', 'Gemunu Libre', sans-serif;
+    }
+
+    @keyframes automakerDropBounce {
+      0% {
+        opacity: 0;
+        transform: translateY(-280px) scale(0.7);
+      }
+      45% {
+        opacity: 1;
+        transform: translateY(22px) scale(1.06);
+      }
+      65% {
+        transform: translateY(-12px) scale(0.96);
+      }
+      82% {
+        transform: translateY(6px) scale(1.02);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes pulseMemorize {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.7);
+      }
+      50% {
+        transform: scale(1.03);
+        box-shadow: 0 0 24px 6px rgba(250, 204, 21, 0.9);
+      }
+    }
+
+    .animate-automaker-drop {
+      animation: automakerDropBounce 1.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .pulse-memorize-btn {
+      animation: pulseMemorize 1.4s infinite ease-in-out;
+    }
+
+    .game-cabinet {
+      position: relative;
+      width: min(100vw, 1180px);
+      height: min(100vh, 830px);
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 55%, #020617 100%);
+      border: 4px solid #090d16;
+      border-radius: 22px;
+      box-shadow:
+        0 24px 70px rgba(0, 0, 0, 0.95),
+        0 0 38px rgba(245, 158, 11, 0.2),
+        inset 0 2px 4px rgba(255, 255, 255, 0.18);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .shop-sign-banner {
+      background: linear-gradient(180deg, #f59e0b 0%, #ea580c 55%, #9a3412 100%);
+      border-left: 4px solid #090d16;
+      border-right: 4px solid #090d16;
+      border-bottom: 4px solid #090d16;
+      border-bottom-left-radius: 18px;
+      border-bottom-right-radius: 18px;
+      box-shadow: 0 6px 18px rgba(234, 88, 12, 0.45), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+    }
+
+    .tool-btn.active-tool {
+      border-color: #facc15 !important;
+      box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.45), 0 6px 16px rgba(0, 0, 0, 0.6);
+      transform: translateY(-2px);
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #090d16;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #475569;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="game-cabinet" id="gameCabinet">
+
+    <!-- 1. INTRO LOADING SCREEN WITH AUTOMAKER LOGO DROPPING & BOUNCING -->
+    <div
+      id="introSplash"
+      class="absolute inset-0 z-50 bg-slate-950 flex flex-col items-center justify-center p-6 text-center transition-opacity duration-700 cursor-pointer"
+      title="Tap anywhere to start Sticker Kade"
+    >
+      <div class="relative flex flex-col items-center animate-automaker-drop">
+        <div class="absolute w-80 h-80 rounded-full bg-gradient-to-tr from-amber-500/35 via-red-600/30 to-orange-500/30 blur-3xl pointer-events-none"></div>
+
+        <div class="w-48 h-48 sm:w-56 sm:h-56 rounded-full relative flex items-center justify-center mb-3">
+          <img
+            id="introLogoImg"
+            src="Gemini_Generated_Image_3z70mv3z70mv3z70_2.jpg"
+            alt="Automaker Logo"
+            class="w-full h-full object-contain rounded-full shadow-2xl"
+            onerror="if(this.src.indexOf('20240914_220739_2.jpg')===-1){this.src='20240914_220739_2.jpg';}else{this.style.display='none';document.getElementById('introFallbackSvg').classList.remove('hidden');}"
+          />
+          <svg
+            id="introFallbackSvg"
+            viewBox="0 0 300 300"
+            class="w-full h-full hidden"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fde047" />
+                <stop offset="50%" stop-color="#f97316" />
+                <stop offset="100%" stop-color="#dc2626" />
+              </linearGradient>
+              <linearGradient id="lionGrad" x1="50%" y1="0%" x2="50%" y2="100%">
+                <stop offset="0%" stop-color="#ef4444" />
+                <stop offset="65%" stop-color="#b91c1c" />
+                <stop offset="100%" stop-color="#450a0a" />
+              </linearGradient>
+              <linearGradient id="carGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#ff2a2a" />
+                <stop offset="100%" stop-color="#7f1d1d" />
+              </linearGradient>
+            </defs>
+            <circle cx="150" cy="150" r="142" fill="#090d16" stroke="url(#ringGrad)" stroke-width="10" />
+            <path d="M150 28 L168 52 L195 36 L198 64 L228 56 L216 84 L244 95 L224 122 L76 122 L56 95 L84 84 L72 56 L102 64 L105 36 L132 52 Z" fill="url(#lionGrad)" />
+            <polygon points="118,84 138,91 122,95" fill="#fef08a" />
+            <polygon points="182,84 162,91 178,95" fill="#fef08a" />
+            <path d="M98 98 Q150 90 202 98 L218 134 L82 134 Z" fill="#0f172a" stroke="#ef4444" stroke-width="3" />
+            <path d="M65 134 Q56 154 58 186 L242 186 Q244 154 235 134 Z" fill="url(#carGrad)" />
+            <text x="150" y="206" text-anchor="middle" fill="#ffffff" font-family="Inter, sans-serif" font-weight="900" font-style="italic" font-size="38">Automaker</text>
+          </svg>
+        </div>
+
+        <p class="text-[11px] uppercase tracking-[0.35em] text-amber-400 font-extrabold">
+          POWERED BY
+        </p>
+        <h1 class="text-2xl sm:text-4xl font-black italic tracking-wider text-white drop-shadow-[0_0_16px_rgba(249,115,22,0.9)]">
+          Automaker
+        </h1>
+        <p class="mt-2 text-xs sm:text-sm text-amber-200 font-sinhala font-bold">
+          ස්ටිකර් කඩේ • පාර අයිනේ බස් ස්ටිකර් ගරාජ් එක
+        </p>
+      </div>
+
+      <div class="w-60 h-2.5 bg-slate-900 rounded-full overflow-hidden border border-amber-500/40 p-0.5 mt-6">
+        <div id="introProgressBar" class="h-full bg-gradient-to-r from-amber-400 via-orange-500 to-red-500 rounded-full transition-all duration-300" style="width: 20%;"></div>
+      </div>
+      <span class="text-[10px] text-slate-400 mt-2 uppercase tracking-widest">
+        Opening Roadside Garage... Tap to Start
+      </span>
+    </div>
+
+    <!-- 2. TOP HUD BAR -->
+    <header class="relative z-20 h-14 bg-slate-900/95 border-b-4 border-slate-950 px-3 sm:px-5 flex items-center justify-between shrink-0">
+      <div class="flex items-center gap-2">
+        <button
+          id="muteBtn"
+          type="button"
+          class="w-9 h-9 rounded-xl bg-amber-500 hover:bg-amber-400 active:scale-95 border-2 border-slate-950 shadow-[0_3px_0_#090d16] flex items-center justify-center text-base cursor-pointer"
+          title="ශබ්දය (Mute/Unmute)"
+        >
+          🔊
+        </button>
+
+        <!-- Strikes / Lives Badge -->
+        <div
+          class="flex items-center gap-1.5 bg-slate-950 border-2 border-red-500/60 rounded-full px-3 py-1"
+          title="වැරදුණු වාර ගණන (3 Strikes = කඩේ වහන්න වෙනවා!)"
+        >
+          <span class="text-xs">💢</span>
+          <span class="text-[11px] font-sinhala font-bold text-slate-300 hidden sm:inline">වැරදීම්:</span>
+          <span id="strikesDisplay" class="font-arcade text-xs sm:text-sm text-red-400">0/3</span>
+        </div>
+
+        <!-- Customer Level Badge -->
+        <div class="hidden md:flex items-center gap-1.5 bg-slate-950 border-2 border-sky-500/50 rounded-full px-3 py-1">
+          <span class="text-xs">🚌</span>
+          <span id="busCountDisplay" class="font-sinhala font-bold text-xs text-sky-300">බස් #1</span>
+        </div>
+      </div>
+
+      <!-- Center Signboard -->
+      <div class="shop-sign-banner px-4 sm:px-7 py-1 text-center -mt-1 z-30">
+        <div class="font-arcade text-sm sm:text-xl tracking-wider text-yellow-100 drop-shadow-[0_2px_2px_rgba(0,0,0,0.95)] leading-none">
+          STICKER KADE
+        </div>
+        <div class="font-sinhala font-extrabold text-[10px] sm:text-xs text-white drop-shadow leading-tight mt-0.5">
+          පාර අයිනේ බස් ස්ටිකර් වැඩපොළ
+        </div>
+      </div>
+
+      <!-- Right Score & Cash -->
+      <div class="flex items-center gap-2">
+        <div class="hidden sm:flex items-center gap-1.5 bg-slate-950 border-2 border-amber-500/50 rounded-full px-3 py-1">
+          <span class="text-xs">⭐</span>
+          <span id="scoreDisplay" class="font-arcade text-xs text-amber-300">0</span>
+        </div>
+
+        <div class="flex items-center gap-1.5 bg-slate-950 border-2 border-emerald-500/60 rounded-full px-3 py-1">
+          <span class="text-xs">💵</span>
+          <span id="cashDisplay" class="font-arcade text-xs sm:text-sm text-emerald-400">Rs. 2,500</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 3. ROADSIDE GARAGE SCENE (SINGLE SIDE BUS + WALKING CUSTOMER + MEMORY BUBBLE) -->
+    <section class="relative w-full h-[54%] min-h-[295px] max-h-[445px] bg-slate-950 border-b-4 border-slate-950 overflow-hidden select-none shrink-0">
+      <canvas id="garageCanvas" width="1180" height="440" class="w-full h-full block"></canvas>
+
+      <!-- Top-Right Work Timer & "Ask Customer Again" Button (Active during Building Phase) -->
+      <div id="workHudBar" class="hidden absolute top-3 right-3 z-20 flex items-center gap-2">
+        <!-- Ask Customer Again Button (in case player forgot!) -->
+        <button
+          id="askAgainBtn"
+          type="button"
+          class="px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 active:scale-95 text-slate-950 border-2 border-slate-950 shadow-[0_3px_0_#090d16] font-sinhala font-black text-xs flex items-center gap-1.5 cursor-pointer"
+          title="ඕඩරේ අමතක වුණා නම් ආයෙත් අහන්න"
+        >
+          <span>🗣️</span>
+          <span>ආයෙත් අහන්න (-Rs.100)</span>
+        </button>
+
+        <!-- Customer Patience Timer -->
+        <div class="flex items-center gap-2 bg-slate-950/90 border-2 border-slate-700 rounded-2xl px-3 py-1.5 shadow-xl">
+          <span class="text-xs">⏳</span>
+          <div class="w-24 sm:w-32 h-3.5 bg-slate-800 rounded-full overflow-hidden p-0.5">
+            <div
+              id="patienceBarFill"
+              class="h-full rounded-full transition-all duration-150"
+              style="width: 100%; background: linear-gradient(90deg, #22c55e 0%, #eab308 55%, #ef4444 100%);"
+            ></div>
+          </div>
+          <span id="timerTextDisplay" class="font-mono font-black text-xs text-amber-300">45s</span>
+        </div>
+      </div>
+
+      <!-- CUSTOMER ORDER BRIEFING SPEECH BUBBLE (Appears when customer walks up and speaks!) -->
+      <div
+        id="customerOrderBubble"
+        class="hidden absolute top-3 left-3 sm:left-52 z-30 w-[300px] sm:w-[390px] bg-white text-slate-950 border-4 border-slate-950 rounded-3xl p-3.5 shadow-[0_18px_45px_rgba(0,0,0,0.85)] transition-all duration-300"
+      >
+        <div class="flex items-center justify-between border-b-2 border-slate-200 pb-2 mb-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded-full bg-amber-400 border border-slate-950 font-sinhala font-black text-[11px]">
+              🗣️ බස් අයිතිකාරයා කියනවා:
+            </span>
+          </div>
+          <span id="memoryStatusBadge" class="text-[11px] font-extrabold text-rose-600 font-sinhala">
+            🧠 හොඳට මතක තියාගන්න!
+          </span>
+        </div>
+
+        <p id="customerIntroLine" class="font-sinhala font-bold text-xs text-slate-700 mb-2">
+          "බාස් මල්ලි, මගේ බස් එකට මේ ටික හරියටම ගහලා දෙන්න:"
+        </p>
+
+        <!-- 4 Clear Visual Items to Memorize -->
+        <div class="grid grid-cols-2 gap-2 text-xs font-sinhala">
+          <div class="bg-slate-100 border-2 border-slate-300 rounded-xl p-2 flex items-center gap-2">
+            <span id="orderColorCircle" class="w-6 h-6 rounded-full border-2 border-slate-900 shrink-0 shadow"></span>
+            <div class="leading-tight">
+              <span class="block text-[10px] text-slate-500 font-bold">1. බස් පාට:</span>
+              <span id="orderColorText" class="font-black text-slate-950 text-xs">දම් පාට</span>
+            </div>
+          </div>
+
+          <div class="bg-slate-100 border-2 border-slate-300 rounded-xl p-2 flex items-center gap-2">
+            <span class="text-lg">🖼️</span>
+            <div class="leading-tight overflow-hidden">
+              <span class="block text-[10px] text-slate-500 font-bold">2. ස්ටිකර් රෝල:</span>
+              <span id="orderStickerText" class="font-black text-purple-700 text-xs truncate block">දම් රැජින</span>
+            </div>
+          </div>
+
+          <div class="bg-slate-100 border-2 border-slate-300 rounded-xl p-2 flex items-center gap-2">
+            <span id="orderDecalEmoji" class="text-lg">🦜</span>
+            <div class="leading-tight">
+              <span class="block text-[10px] text-slate-500 font-bold">3. ඩිසයින් කෑල්ල:</span>
+              <span id="orderDecalText" class="font-black text-emerald-700 text-xs">ගිරවා</span>
+            </div>
+          </div>
+
+          <div class="bg-amber-100 border-2 border-amber-400 rounded-xl p-2 flex items-center gap-2">
+            <span class="text-lg">✍️</span>
+            <div class="leading-tight">
+              <span class="block text-[10px] text-amber-800 font-bold">4. බස් එකේ නම:</span>
+              <span id="orderNameText" class="font-black text-slate-950 text-xs">"දම් රැජින"</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Memorize Countdown Bar & "Got It" Button -->
+        <div class="mt-3 flex items-center gap-2">
+          <div class="flex-1 h-2.5 bg-slate-200 rounded-full overflow-hidden border border-slate-400">
+            <div id="memorizeProgressFill" class="h-full bg-amber-500 transition-all duration-100" style="width: 100%;"></div>
+          </div>
+          <button
+            id="gotItStartBtn"
+            type="button"
+            class="pulse-memorize-btn px-3.5 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-sinhala font-black text-xs border-2 border-slate-950 shadow-[0_3px_0_#090d16] cursor-pointer shrink-0"
+          >
+            👍 හරි මතකයි! වැඩේ පටන් ගමු
+          </button>
+        </div>
+      </div>
+
+      <!-- CUSTOMER DELIVERY REACTION BUBBLE -->
+      <div
+        id="reactionBubble"
+        class="pointer-events-none absolute bottom-4 left-4 sm:left-48 z-30 max-w-[330px] sm:max-w-[420px] bg-amber-300 text-slate-950 border-4 border-slate-950 rounded-3xl px-4 py-3 shadow-2xl transition-all duration-300 opacity-0 scale-75"
+      >
+        <div class="flex items-center gap-3">
+          <span id="reactionEmoji" class="text-3xl sm:text-4xl">🤩</span>
+          <div>
+            <p id="reactionSinhalaText" class="font-sinhala font-black text-xs sm:text-sm leading-snug">
+              "සුපිරි වැඩක් බාස්! මතක තියාගෙන ගානටම ගහලා තියෙනවා!"
+            </p>
+            <p id="reactionSubText" class="text-[10px] sm:text-xs font-extrabold uppercase tracking-wider text-slate-800 mt-0.5">
+              +Rs. 2,500 • Memory Master Bonus!
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. SIMPLE & CLEAN 4-STEP GARAGE CONTROL PANEL -->
+    <main class="relative flex-1 bg-gradient-to-b from-slate-900 via-slate-950 to-black p-2.5 sm:p-3.5 flex flex-col justify-between overflow-y-auto">
+      <div class="w-full max-w-[1150px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-2.5 my-auto">
+
+        <!-- STEP 1: SPRAY PAINT COLOR (3 cols) -->
+        <div class="lg:col-span-3 bg-slate-900/95 border-2 border-slate-800 rounded-2xl p-2.5 flex flex-col justify-between shadow-lg">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-xs font-sinhala font-black text-cyan-300 flex items-center gap-1.5">
+              <span>🎨</span> 1. බස් එකේ පාට (SPRAY PAINT)
+            </span>
+            <span id="chosenColorBadge" class="text-[10px] font-sinhala font-bold text-slate-400">සුදු (Plain)</span>
+          </div>
+          <div id="colorButtonsGrid" class="grid grid-cols-3 gap-1.5 my-auto">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- STEP 2: FULL SIDE STICKER SKIN ROLL (3 cols) -->
+        <div class="lg:col-span-3 bg-slate-900/95 border-2 border-slate-800 rounded-2xl p-2.5 flex flex-col justify-between shadow-lg">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-xs font-sinhala font-black text-pink-300 flex items-center gap-1.5">
+              <span>🖼️</span> 2. ස්ටිකර් රෝල (FULL STICKER)
+            </span>
+            <span id="chosenStickerBadge" class="text-[10px] font-sinhala font-bold text-amber-300">තෝරන්න</span>
+          </div>
+          <div id="stickerButtonsGrid" class="grid grid-cols-2 gap-1.5 my-auto">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- STEP 3: EXTRA DESIGN CUTOUT DECAL (2 cols) -->
+        <div class="lg:col-span-2 bg-slate-900/95 border-2 border-slate-800 rounded-2xl p-2.5 flex flex-col justify-between shadow-lg">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-xs font-sinhala font-black text-emerald-300 flex items-center gap-1">
+              <span>🦜</span> 3. ඩිසයින් කෑලි
+            </span>
+          </div>
+          <div id="decalButtonsGrid" class="grid grid-cols-2 gap-1.5 my-auto">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- STEP 4: BUS NAME & DELIVER BUTTON (4 cols) -->
+        <div class="lg:col-span-4 bg-slate-900/95 border-2 border-slate-800 rounded-2xl p-2.5 flex flex-col justify-between shadow-lg gap-2">
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-xs font-sinhala font-black text-amber-300 flex items-center gap-1.5">
+                <span>✍️</span> 4. බස් එකේ නම (ටයිප් කරන්න හෝ තෝරන්න)
+              </span>
+            </div>
+
+            <div class="flex items-center gap-1.5 mb-1.5">
+              <input
+                id="busTextInput"
+                type="text"
+                placeholder="බස් එකේ නම මෙතන ගහන්න..."
+                autocomplete="off"
+                class="flex-1 bg-slate-950 border-2 border-slate-700 focus:border-amber-400 rounded-xl px-3 py-1.5 text-xs sm:text-sm font-sinhala font-black text-white focus:outline-none"
+              />
+              <button
+                id="applyTextBtn"
+                type="button"
+                class="px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 active:scale-95 text-slate-950 font-sinhala font-black text-xs border-2 border-slate-950 cursor-pointer shrink-0"
+              >
+                ගහන්න ✍️
+              </button>
+            </div>
+
+            <!-- Quick Tap Bus Name Chips -->
+            <div id="quickTextChips" class="flex flex-wrap gap-1">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <!-- DELIVER BUS BUTTON -->
+          <button
+            id="deliverBusBtn"
+            type="button"
+            class="w-full py-2.5 rounded-2xl bg-gradient-to-r from-emerald-400 via-green-500 to-teal-500 hover:from-emerald-300 hover:to-teal-400 active:scale-95 border-2 border-slate-950 shadow-[0_4px_0_#090d16] font-sinhala font-black text-sm sm:text-base text-slate-950 tracking-wide flex items-center justify-center gap-2 cursor-pointer transition-all"
+          >
+            <span>🚀</span>
+            <span>වැඩේ ඉවරයි • බස් එක බාර දෙන්න (DELIVER)</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Bottom Status Hint + Unobtrusive "Powered by Automaker" Corner Badge -->
+      <div class="w-full max-w-[1150px] mx-auto flex items-center justify-between mt-1 pt-1 text-[11px] sm:text-xs text-slate-300">
+        <div id="statusHintBar" class="font-sinhala truncate pr-2">
+          💡 <strong class="text-amber-300">ක්‍රමය:</strong> බස් එක ඇවිත් නැවැත්තුවම අයිතිකාරයා කියන <strong class="text-white">පාට, ස්ටිකරේ, ඩිසයින් කෑල්ල සහ නම</strong> මතක තියාගෙන හදලා <strong class="text-emerald-400">බාර දෙන්න</strong>!
+        </div>
+
+        <!-- Persistent "Powered by Automaker" Corner Plate -->
+        <div class="shrink-0 flex items-center gap-2 bg-slate-950/95 border-2 border-slate-700 rounded-tl-2xl rounded-br-xl px-3 py-1 shadow-lg">
+          <div class="w-5 h-5 rounded-full bg-red-600/20 border border-red-500 flex items-center justify-center overflow-hidden">
+            <img
+              src="20240914_220739_2.jpg"
+              alt="Automaker"
+              class="w-full h-full object-cover"
+              onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');"
+            />
+            <svg viewBox="0 0 60 40" class="w-4 h-3.5 hidden">
+              <path d="M12 18 Q30 8 48 18 L54 30 L6 30 Z" fill="#ef4444" />
+              <polygon points="10,22 20,25 18,28 8,26" fill="#fef08a" />
+              <polygon points="50,22 40,25 42,28 52,26" fill="#fef08a" />
+            </svg>
+          </div>
+          <div class="leading-none text-right">
+            <span class="block text-[7px] uppercase tracking-wider text-slate-400 font-semibold">Powered by</span>
+            <span class="font-black italic text-[11px] text-white tracking-wide drop-shadow-[0_0_6px_rgba(239,68,68,0.8)]">Automaker</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 5. GAME OVER MODAL (3 Strikes = "කඩේ වහමු නේද?") -->
+    <div
+      id="gameOverModal"
+      class="absolute inset-0 z-50 bg-slate-950/95 backdrop-blur-md flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300"
+    >
+      <div class="w-full max-w-md bg-gradient-to-b from-slate-800 to-slate-950 border-4 border-red-500 rounded-3xl p-6 text-center shadow-[0_0_50px_rgba(239,68,68,0.45)]">
+        <div class="w-20 h-20 mx-auto rounded-full bg-red-500/20 border-2 border-red-500 flex items-center justify-center text-4xl mb-3 animate-bounce">
+          😤
+        </div>
+
+        <span class="px-3 py-0.5 rounded-full bg-red-950 border border-red-500/50 text-[10px] font-extrabold uppercase tracking-widest text-red-300">
+          3 CUSTOMERS ANGRY!
+        </span>
+
+        <h2 class="font-sinhala font-black text-2xl sm:text-3xl text-amber-300 mt-2 leading-tight">
+          "කඩේ වහමු නේද?"
+        </h2>
+        <p class="text-xs text-slate-300 mt-1 font-sinhala">
+          බස් අයිතිකාරයෝ 3 දෙනෙක්ම ඉල්ලපු විදිහට ස්ටිකර් ගැහුවේ නැති නිසා තරහ වෙලා ගියා!
+        </p>
+
+        <div class="grid grid-cols-3 gap-2 my-5 bg-slate-900/90 border border-slate-800 rounded-2xl p-3">
+          <div>
+            <span class="block text-[10px] uppercase text-slate-400">Score</span>
+            <span id="finalScoreText" class="font-arcade text-base sm:text-lg text-white">0</span>
+          </div>
+          <div>
+            <span class="block text-[10px] uppercase text-slate-400">Cash Earned</span>
+            <span id="finalCashText" class="font-arcade text-base sm:text-lg text-emerald-400">Rs. 0</span>
+          </div>
+          <div>
+            <span class="block text-[10px] uppercase text-slate-400">Buses Done</span>
+            <span id="finalServedText" class="font-arcade text-base sm:text-lg text-amber-300">0</span>
+          </div>
+        </div>
+
+        <button
+          id="restartGameBtn"
+          type="button"
+          class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-400 via-orange-500 to-red-500 hover:from-amber-300 hover:to-red-400 text-slate-950 font-sinhala font-black text-sm sm:text-base tracking-wide border-2 border-white shadow-xl active:scale-95 transition cursor-pointer"
+        >
+          🔄 ආයෙත් කඩේ අරිමු (RESTART SHOP)
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      /* =====================================================================
+       * 1. WEB AUDIO SYNTHESIZER (Bus Engine, Air Brake, Spray, Squeegee, Horn)
+       * ===================================================================== */
+      let audioCtx = null;
+      let isMuted = false;
+
+      function ensureAudio() {
+        if (!audioCtx) {
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (AC) audioCtx = new AC();
+        }
+        if (audioCtx && audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+      }
+
+      function playTone(freq, type, duration, vol = 0.14, endFreq = null, delay = 0) {
+        if (isMuted) return;
+        ensureAudio();
+        if (!audioCtx) return;
+        try {
+          const now = audioCtx.currentTime + delay;
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, now);
+          if (endFreq !== null) {
+            osc.frequency.exponentialRampToValueAtTime(Math.max(25, endFreq), now + duration);
+          }
+          gain.gain.setValueAtTime(0.001, now);
+          gain.gain.linearRampToValueAtTime(vol, now + 0.015);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(now + duration + 0.02);
+        } catch (_) {}
+      }
+
+      function playBusArrivalSound() {
+        // Low diesel rumble + air brake hiss
+        playTone(95, 'sawtooth', 0.45, 0.12, 62, 0);
+        playTone(620, 'triangle', 0.18, 0.08, 220, 0.42);
+      }
+
+      function playSpraySound() {
+        playTone(480, 'triangle', 0.09, 0.14, 780, 0);
+        playTone(780, 'sine', 0.11, 0.12, 1040, 0.05);
+      }
+
+      function playVinylRollSound() {
+        playTone(280, 'sine', 0.14, 0.15, 520, 0);
+        playTone(520, 'triangle', 0.18, 0.16, 840, 0.08);
+      }
+
+      function playDecalStampSound() {
+        playTone(620, 'triangle', 0.08, 0.15, 920, 0);
+        playTone(920, 'sine', 0.14, 0.15, 1240, 0.05);
+      }
+
+      function playBusHornCelebration() {
+        // Classic Sri Lankan multi-tone bus horn melody
+        [523.25, 659.25, 783.99, 659.25, 880, 1046.5].forEach((f, idx) => {
+          playTone(f, 'sawtooth', 0.12, 0.15, null, idx * 0.08);
+        });
+      }
+
+      function playAngrySound() {
+        playTone(210, 'sawtooth', 0.24, 0.2, 115, 0);
+        playTone(155, 'sawtooth', 0.32, 0.22, 75, 0.2);
+      }
+
+      /* =====================================================================
+       * 2. SHOP ASSETS: PAINT COLORS, STICKER ROLLS, DECAL CUTOUTS & BUS NAMES
+       * ===================================================================== */
+      const BUS_COLORS = [
+        { id: 'purple', name: 'දම් පාට', hex: '#a855f7', dark: '#4c1d95', light: '#f3e8ff' },
+        { id: 'red', name: 'රතු පාට', hex: '#ef4444', dark: '#7f1d1d', light: '#fee2e2' },
+        { id: 'blue', name: 'නිල් පාට', hex: '#2563eb', dark: '#1e3a8a', light: '#dbeafe' },
+        { id: 'green', name: 'කොළ පාට', hex: '#16a34a', dark: '#14532d', light: '#dcfce7' },
+        { id: 'yellow', name: 'කහ පාට', hex: '#eab308', dark: '#713f12', light: '#fef9c3' },
+        { id: 'pink', name: 'රෝස පාට', hex: '#ec4899', dark: '#831843', light: '#fce7f3' }
+      ];
+
+      // Full-Side Vinyl Sticker Rolls (uses the uploaded images + rich procedural fallback)
+      const STICKER_ROLLS = [
+        {
+          id: 'dam_rejini',
+          name: 'දම් රැජින',
+          sub: 'Purple Queen',
+          sources: ['20250924_153948.jpg', '20260102_005718.jpg'],
+          grad: ['#c026d3', '#7e22ce', '#3b0764'],
+          imgObj: null,
+          loaded: false,
+          fallbackCanvas: null
+        },
+        {
+          id: 'ahamkari',
+          name: 'අහංකාරී',
+          sub: 'Ahamkari Green/Blue',
+          sources: ['20240923_133733.jpg', '20260813_210248.jpg'],
+          grad: ['#16a34a', '#0284c7', '#064e3b'],
+          imgObj: null,
+          loaded: false,
+          fallbackCanvas: null
+        },
+        {
+          id: 'alankari',
+          name: 'අලංකාරී',
+          sub: 'Alankari Rainbow',
+          sources: ['20240830_152354.jpg', '20240830_152354_2.jpg'],
+          grad: ['#0ea5e9', '#22c55e', '#dc2626'],
+          imgObj: null,
+          loaded: false,
+          fallbackCanvas: null
+        },
+        {
+          id: 'apsaravi',
+          name: 'අප්සරාවී',
+          sub: 'Apsaravi Gold',
+          sources: ['20241210_123527_2.jpg', '20241210_123527_3.jpg'],
+          grad: ['#eab308', '#f97316', '#78350f'],
+          imgObj: null,
+          loaded: false,
+          fallbackCanvas: null
+        }
+      ];
+
+      // Creative Cutout Decals stamped on the bus side
+      const DECAL_ITEMS = [
+        { id: 'parrot', name: 'ගිරවා (Parrot)', icon: '🦜', color: '#ef4444' },
+        { id: 'peacock', name: 'මොණරා (Peacock)', icon: '🦚', color: '#10b981' },
+        { id: 'lion', name: 'සිංහයා (Lion VIP)', icon: '🦁', color: '#f59e0b' },
+        { id: 'flames', name: 'ගිනි දැල් (Flames)', icon: '🔥', color: '#ec4899' }
+      ];
+
+      const BUS_NAMES = [
+        'දම් රැජින',
+        'අහංකාරී',
+        'අලංකාරී',
+        'අප්සරාවී',
+        'සුභ ගමන්',
+        'බුදු සරණයි'
+      ];
+
+      const CUSTOMER_CHARACTERS = [
+        { name: 'සුනිල් මුදලාලි', shirt: '#f59e0b', sarong: '#1e40af', skin: '#d97745', mustache: true },
+        { name: 'රංජිත් අයියා', shirt: '#10b981', sarong: '#7f1d1d', skin: '#c66b3d', mustache: true },
+        { name: 'චමින්ද බොස්', shirt: '#ec4899', sarong: '#312e81', skin: '#e08b5b', mustache: false },
+        { name: 'කසුන් මල්ලි', shirt: '#0ea5e9', sarong: '#064e3b', skin: '#d97745', mustache: false }
+      ];
+
+      function buildFallbackStickerTexture(roll) {
+        const c = document.createElement('canvas');
+        c.width = 640;
+        c.height = 150;
+        const gCtx = c.getContext('2d');
+
+        const g = gCtx.createLinearGradient(0, 0, 640, 150);
+        g.addColorStop(0, roll.grad[0]);
+        g.addColorStop(0.5, roll.grad[1]);
+        g.addColorStop(1, roll.grad[2]);
+        gCtx.fillStyle = g;
+        gCtx.fillRect(0, 0, 640, 150);
+
+        // Decorative Mandala & Speed Waves
+        gCtx.strokeStyle = 'rgba(255,255,255,0.32)';
+        gCtx.lineWidth = 2.5;
+        for (let r = 15; r <= 65; r += 12) {
+          gCtx.beginPath();
+          gCtx.arc(140, 75, r, 0, Math.PI * 2);
+          gCtx.stroke();
+          gCtx.beginPath();
+          gCtx.arc(490, 75, r, 0, Math.PI * 2);
+          gCtx.stroke();
+        }
+
+        // Sweeping Vinyl Ribbon
+        gCtx.fillStyle = 'rgba(255,255,255,0.22)';
+        gCtx.beginPath();
+        gCtx.moveTo(0, 120);
+        gCtx.quadraticCurveTo(220, 20, 440, 110);
+        gCtx.quadraticCurveTo(540, 145, 640, 50);
+        gCtx.lineTo(640, 150);
+        gCtx.lineTo(0, 150);
+        gCtx.closePath();
+        gCtx.fill();
+
+        return c;
+      }
+
+      function preloadStickerAssets() {
+        STICKER_ROLLS.forEach((roll) => {
+          roll.fallbackCanvas = buildFallbackStickerTexture(roll);
+          const img = new Image();
+          let idx = 0;
+          img.onload = () => {
+            roll.imgObj = img;
+            roll.loaded = true;
+            renderStickerButtons();
+          };
+          img.onerror = () => {
+            idx++;
+            if (idx < roll.sources.length) {
+              img.src = roll.sources[idx];
+            }
+          };
+          img.src = roll.sources[0];
+        });
+      }
+
+      /* =====================================================================
+       * 3. GAME STATE & MEMORY ORDER FLOW
+       * ===================================================================== */
+      const state = {
+        inIntro: true,
+        gameOver: false,
+        tick: 0,
+        lastTimestamp: performance.now(),
+
+        score: 0,
+        cash: 2500,
+        busesServed: 0,
+        strikes: 0,
+        maxStrikes: 3,
+
+        // What is currently applied on the parked bus
+        busDesign: {
+          colorId: null,     // null = plain rusty/primer white bus
+          stickerId: null,   // null = no vinyl wrap yet
+          decalId: null,     // null = no cutout decal yet
+          busName: '',       // empty = no name painted yet
+          wrapAnimProgress: 1, // 0..1 vinyl unrolling animation across bus side
+          decalPopScale: 1
+        },
+
+        // Active Bus & Customer on the Roadside
+        job: {
+          // Phases: 'bus_arriving' -> 'customer_walking' -> 'order_briefing' -> 'working' -> 'inspecting' -> 'bus_leaving'
+          phase: 'bus_arriving',
+          busX: -720,
+          targetBusX: 335,
+          wheelAngle: 0,
+          busBounce: 0,
+
+          custX: 430,
+          targetCustX: 115,
+          custChar: CUSTOMER_CHARACTERS[0],
+          custMood: 'talking', // 'talking' | 'waiting' | 'happy' | 'angry'
+
+          // The 4 things the customer asked for
+          reqColorId: 'purple',
+          reqStickerId: 'dam_rejini',
+          reqDecalId: 'parrot',
+          reqBusName: 'දම් රැජින',
+
+          // Timers
+          briefingMaxTime: 9.0, // Seconds the order bubble stays open before hiding
+          briefingTimeLeft: 9.0,
+          workMaxTime: 50.0,
+          workTimeLeft: 50.0,
+          usedPeek: false,
+          reward: 2200
+        },
+
+        particles: [],
+        clouds: [
+          { x: 140, y: 42, s: 0.9, speed: 0.18 },
+          { x: 520, y: 28, s: 1.15, speed: 0.14 },
+          { x: 920, y: 52, s: 0.8, speed: 0.22 }
+        ]
+      };
+
+      // DOM Elements
+      const canvas = document.getElementById('garageCanvas');
+      const ctx = canvas.getContext('2d');
+
+      const strikesDisplay = document.getElementById('strikesDisplay');
+      const busCountDisplay = document.getElementById('busCountDisplay');
+      const scoreDisplay = document.getElementById('scoreDisplay');
+      const cashDisplay = document.getElementById('cashDisplay');
+
+      const workHudBar = document.getElementById('workHudBar');
+      const askAgainBtn = document.getElementById('askAgainBtn');
+      const patienceBarFill = document.getElementById('patienceBarFill');
+      const timerTextDisplay = document.getElementById('timerTextDisplay');
+
+      const customerOrderBubble = document.getElementById('customerOrderBubble');
+      const orderColorCircle = document.getElementById('orderColorCircle');
+      const orderColorText = document.getElementById('orderColorText');
+      const orderStickerText = document.getElementById('orderStickerText');
+      const orderDecalEmoji = document.getElementById('orderDecalEmoji');
+      const orderDecalText = document.getElementById('orderDecalText');
+      const orderNameText = document.getElementById('orderNameText');
+      const memorizeProgressFill = document.getElementById('memorizeProgressFill');
+      const gotItStartBtn = document.getElementById('gotItStartBtn');
+
+      const chosenColorBadge = document.getElementById('chosenColorBadge');
+      const chosenStickerBadge = document.getElementById('chosenStickerBadge');
+      const busTextInput = document.getElementById('busTextInput');
+      const applyTextBtn = document.getElementById('applyTextBtn');
+      const deliverBusBtn = document.getElementById('deliverBusBtn');
+      const statusHintBar = document.getElementById('statusHintBar');
+
+      const reactionBubble = document.getElementById('reactionBubble');
+      const reactionEmoji = document.getElementById('reactionEmoji');
+      const reactionSinhalaText = document.getElementById('reactionSinhalaText');
+      const reactionSubText = document.getElementById('reactionSubText');
+      const gameOverModal = document.getElementById('gameOverModal');
+
+      /* =====================================================================
+       * 4. CUSTOMER SPAWNING & MEMORY BRIEFING LOGIC
+       * ===================================================================== */
+      function normalizeText(str) {
+        return (str || '').trim().replace(/\s+/g, ' ');
+      }
+
+      function spawnNextBusCustomer() {
+        if (state.gameOver) return;
+
+        // Reset current bus to a plain unpainted white/primer bus arriving from the road
+        state.busDesign = {
+          colorId: null,
+          stickerId: null,
+          decalId: null,
+          busName: '',
+          wrapAnimProgress: 1,
+          decalPopScale: 1
+        };
+        busTextInput.value = '';
+        chosenColorBadge.textContent = 'සුදු (Plain)';
+        chosenStickerBadge.textContent = 'තෝරන්න';
+
+        // Pick order requirements (First bus is the iconic "දම් රැජින" so player experiences it right away)
+        const isFirst = state.busesServed === 0;
+        const reqColor = isFirst ? BUS_COLORS[0] : BUS_COLORS[Math.floor(Math.random() * BUS_COLORS.length)];
+        const reqSticker = isFirst ? STICKER_ROLLS[0] : STICKER_ROLLS[Math.floor(Math.random() * STICKER_ROLLS.length)];
+        const reqDecal = isFirst ? DECAL_ITEMS[0] : DECAL_ITEMS[Math.floor(Math.random() * DECAL_ITEMS.length)];
+        const reqName = isFirst ? BUS_NAMES[0] : BUS_NAMES[Math.floor(Math.random() * BUS_NAMES.length)];
+        const charObj = CUSTOMER_CHARACTERS[state.busesServed % CUSTOMER_CHARACTERS.length];
+
+        const workSecs = Math.max(32, 52 - state.busesServed * 2);
+
+        state.job = {
+          phase: 'bus_arriving',
+          busX: -740,
+          targetBusX: 335,
+          wheelAngle: 0,
+          busBounce: 0,
+
+          custX: 460,
+          targetCustX: 118,
+          custChar: charObj,
+          custMood: 'talking',
+
+          reqColorId: reqColor.id,
+          reqStickerId: reqSticker.id,
+          reqDecalId: reqDecal.id,
+          reqBusName: reqName,
+
+          briefingMaxTime: 9.0,
+          briefingTimeLeft: 9.0,
+          workMaxTime: workSecs,
+          workTimeLeft: workSecs,
+          usedPeek: false,
+          reward: 2200 + state.busesServed * 300
+        };
+
+        // Populate the customer's speech bubble
+        orderColorCircle.style.backgroundColor = reqColor.hex;
+        orderColorText.textContent = reqColor.name;
+        orderStickerText.textContent = reqSticker.name;
+        orderDecalEmoji.textContent = reqDecal.icon;
+        orderDecalText.textContent = reqDecal.name.split(' ')[0];
+        orderNameText.textContent = `"${reqName}"`;
+
+        customerOrderBubble.classList.add('hidden');
+        workHudBar.classList.add('hidden');
+
+        playBusArrivalSound();
+        updateTopHud();
+        renderAllToolButtons();
+        statusHintBar.innerHTML = `🚌 <strong class="text-amber-300">අලුත් බස් එකක් එනවා!</strong> අයිතිකාරයා බැහැලා ඇවිත් කියන විස්තරේ හොඳට මතක තියාගන්න...`;
+      }
+
+      function startWorkingPhase() {
+        if (state.job.phase !== 'order_briefing') return;
+        state.job.phase = 'working';
+        state.job.custMood = 'waiting';
+        customerOrderBubble.classList.add('hidden');
+        workHudBar.classList.remove('hidden');
+        statusHintBar.innerHTML = `🧠 <strong class="text-emerald-400">දැන් මතකයෙන් හදන්න!</strong> අයිතිකාරයා ඉල්ලපු <strong class="text-white">පාට, ස්ටිකරේ, ඩිසයින් කෑල්ල සහ නම</strong> දාලා <strong class="text-amber-300">බාර දෙන්න</strong>!`;
+      }
+
+      function peekAtOrderAgain() {
+        if (state.job.phase !== 'working') return;
+        state.job.usedPeek = true;
+        state.cash = Math.max(0, state.cash - 100);
+        updateTopHud();
+
+        // Show bubble for 4 seconds as a reminder
+        customerOrderBubble.classList.remove('hidden');
+        document.getElementById('memoryStatusBadge').textContent = '👀 තත්පර 4කින් වැහෙනවා!';
+        clearTimeout(customerOrderBubble._peekTimer);
+        customerOrderBubble._peekTimer = setTimeout(() => {
+          if (state.job.phase === 'working') {
+            customerOrderBubble.classList.add('hidden');
+          }
+        }, 4200);
+      }
+
+      function updateTopHud() {
+        strikesDisplay.textContent = `${state.strikes}/${state.maxStrikes}`;
+        busCountDisplay.textContent = `බස් #${state.busesServed + 1}`;
+        scoreDisplay.textContent = state.score.toLocaleString();
+        cashDisplay.textContent = `Rs. ${state.cash.toLocaleString()}`;
+      }
+
+      /* =====================================================================
+       * 5. BOTTOM GARAGE PALETTE UI BUILDERS
+       * ===================================================================== */
+      function renderColorButtons() {
+        const grid = document.getElementById('colorButtonsGrid');
+        grid.innerHTML = '';
+
+        BUS_COLORS.forEach((col) => {
+          const active = state.busDesign.colorId === col.id;
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = `tool-btn rounded-xl border-2 border-slate-700 p-2 flex flex-col items-center justify-center gap-1 transition cursor-pointer ${
+            active ? 'active-tool bg-slate-800' : 'bg-slate-950 hover:bg-slate-800/70'
+          }`;
+
+          btn.innerHTML = `
+            <span class="w-6 h-6 rounded-full border-2 border-white shadow-md" style="background:${col.hex}"></span>
+            <span class="text-[10px] font-sinhala font-bold text-white leading-none">${col.name}</span>
+          `;
+
+          btn.addEventListener('click', () => {
+            if (state.job.phase === 'order_briefing') startWorkingPhase();
+            if (state.job.phase !== 'working') return;
+
+            state.busDesign.colorId = col.id;
+            chosenColorBadge.textContent = col.name;
+            playSpraySound();
+            spawnGarageParticles(col.hex, 28, 'spray');
+            renderColorButtons();
+          });
+
+          grid.appendChild(btn);
+        });
+      }
+
+      function renderStickerButtons() {
+        const grid = document.getElementById('stickerButtonsGrid');
+        grid.innerHTML = '';
+
+        STICKER_ROLLS.forEach((roll) => {
+          const active = state.busDesign.stickerId === roll.id;
+          const thumbSrc = roll.loaded && roll.imgObj ? roll.imgObj.src : roll.fallbackCanvas.toDataURL();
+
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = `tool-btn rounded-xl border-2 border-slate-700 bg-slate-950 p-1.5 flex flex-col justify-between transition cursor-pointer ${
+            active ? 'active-tool' : 'hover:border-slate-500'
+          }`;
+
+          btn.innerHTML = `
+            <div class="w-full h-9 rounded-lg overflow-hidden border border-slate-800 relative">
+              <img src="${thumbSrc}" alt="${roll.name}" class="w-full h-full object-cover" />
+            </div>
+            <span class="text-[11px] font-sinhala font-black text-white mt-1 truncate w-full text-center">${roll.name}</span>
+          `;
+
+          btn.addEventListener('click', () => {
+            if (state.job.phase === 'order_briefing') startWorkingPhase();
+            if (state.job.phase !== 'working') return;
+
+            state.busDesign.stickerId = roll.id;
+            state.busDesign.wrapAnimProgress = 0.02; // Triggers smooth left-to-right vinyl unrolling animation!
+            chosenStickerBadge.textContent = roll.name;
+            playVinylRollSound();
+            spawnGarageParticles(roll.grad[0], 22, 'sparkle');
+            renderStickerButtons();
+          });
+
+          grid.appendChild(btn);
+        });
+      }
+
+      function renderDecalButtons() {
+        const grid = document.getElementById('decalButtonsGrid');
+        grid.innerHTML = '';
+
+        DECAL_ITEMS.forEach((dec) => {
+          const active = state.busDesign.decalId === dec.id;
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = `tool-btn rounded-xl border-2 border-slate-700 bg-slate-950 p-2 flex flex-col items-center justify-center gap-1 transition cursor-pointer ${
+            active ? 'active-tool bg-slate-800' : 'hover:bg-slate-800/70'
+          }`;
+
+          btn.innerHTML = `
+            <span class="text-xl">${dec.icon}</span>
+            <span class="text-[10px] font-sinhala font-bold text-white truncate max-w-full">${dec.name.split(' ')[0]}</span>
+          `;
+
+          btn.addEventListener('click', () => {
+            if (state.job.phase === 'order_briefing') startWorkingPhase();
+            if (state.job.phase !== 'working') return;
+
+            state.busDesign.decalId = dec.id;
+            state.busDesign.decalPopScale = 1.45;
+            playDecalStampSound();
+            spawnGarageParticles(dec.color, 20, 'sparkle');
+            renderDecalButtons();
+          });
+
+          grid.appendChild(btn);
+        });
+      }
+
+      function renderQuickNameChips() {
+        const container = document.getElementById('quickTextChips');
+        container.innerHTML = '';
+
+        BUS_NAMES.forEach((nameStr) => {
+          const active = normalizeText(state.busDesign.busName) === nameStr;
+          const chip = document.createElement('button');
+          chip.type = 'button';
+          chip.className = `px-2.5 py-1 rounded-lg border text-xs font-sinhala font-bold transition cursor-pointer ${
+            active
+              ? 'bg-amber-400 text-slate-950 border-white font-black shadow'
+              : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-600'
+          }`;
+          chip.textContent = nameStr;
+
+          chip.addEventListener('click', () => {
+            if (state.job.phase === 'order_briefing') startWorkingPhase();
+            if (state.job.phase !== 'working') return;
+
+            busTextInput.value = nameStr;
+            state.busDesign.busName = nameStr;
+            playDecalStampSound();
+            spawnGarageParticles('#facc15', 16, 'sparkle');
+            renderQuickNameChips();
+          });
+
+          container.appendChild(chip);
+        });
+      }
+
+      function renderAllToolButtons() {
+        renderColorButtons();
+        renderStickerButtons();
+        renderDecalButtons();
+        renderQuickNameChips();
+      }
+
+      /* =====================================================================
+       * 6. REALISTIC SRI LANKAN ROADSIDE GARAGE + SINGLE SIDE BUS + CUSTOMER RENDERER
+       * ===================================================================== */
+      function spawnGarageParticles(color, count = 20, kind = 'spray') {
+        const bx = state.job.busX;
+        for (let i = 0; i < count; i++) {
+          state.particles.push({
+            x: bx + 120 + Math.random() * 520,
+            y: 165 + Math.random() * 140,
+            vx: (Math.random() - 0.5) * 6,
+            vy: -1.5 - Math.random() * 4,
+            r: kind === 'spray' ? 4 + Math.random() * 6 : 3 + Math.random() * 4,
+            color,
+            alpha: 1
+          });
+        }
+      }
+
+      function drawRoadsideEnvironment() {
+        // 1. Tropical Sri Lankan Afternoon Sky Gradient
+        const skyGrad = ctx.createLinearGradient(0, 0, 0, 290);
+        skyGrad.addColorStop(0, '#0284c7');
+        skyGrad.addColorStop(0.52, '#38bdf8');
+        skyGrad.addColorStop(0.85, '#fde047');
+        skyGrad.addColorStop(1, '#fb923c');
+        ctx.fillStyle = skyGrad;
+        ctx.fillRect(0, 0, 1180, 290);
+
+        // Moving Tropical Clouds
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.78)';
+        state.clouds.forEach((cl) => {
+          cl.x += cl.speed;
+          if (cl.x > 1260) cl.x = -120;
+          ctx.save();
+          ctx.translate(cl.x, cl.y);
+          ctx.scale(cl.s, cl.s);
+          ctx.beginPath();
+          ctx.arc(0, 0, 24, 0, Math.PI * 2);
+          ctx.arc(22, -6, 30, 0, Math.PI * 2);
+          ctx.arc(48, 0, 22, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        });
+
+        // Distant Lush Green Hills & Roadside Foliage
+        ctx.fillStyle = '#065f46';
+        ctx.beginPath();
+        ctx.moveTo(0, 265);
+        ctx.quadraticCurveTo(180, 195, 390, 250);
+        ctx.quadraticCurveTo(640, 185, 920, 245);
+        ctx.quadraticCurveTo(1060, 210, 1180, 245);
+        ctx.lineTo(1180, 295);
+        ctx.lineTo(0, 295);
+        ctx.closePath();
+        ctx.fill();
+
+        // Coconut Palm Trees swaying gently by the roadside
+        drawCoconutTree(85, 265, 1.05, -0.12);
+        drawCoconutTree(255, 268, 0.85, 0.1);
+        drawCoconutTree(1095, 265, 1.0, 0.08);
+
+        // Overhead Roadside Concrete Utility Poles & Wires
+        ctx.fillStyle = '#64748b';
+        ctx.fillRect(195, 70, 8, 205);
+        ctx.fillRect(1025, 70, 8, 205);
+        ctx.strokeStyle = 'rgba(15, 23, 42, 0.65)';
+        ctx.lineWidth = 1.5;
+        for (let wy = 82; wy <= 102; wy += 10) {
+          ctx.beginPath();
+          ctx.moveTo(0, wy);
+          ctx.quadraticCurveTo(100, wy + 14, 199, wy);
+          ctx.quadraticCurveTo(610, wy + 28, 1029, wy);
+          ctx.quadraticCurveTo(1105, wy + 10, 1180, wy);
+          ctx.stroke();
+        }
+
+        // 2. ROADSIDE STICKER KADE GARAGE SHED (Behind the parked bus)
+        const shedX = 320;
+        const shedY = 58;
+        const shedW = 680;
+        const shedH = 225;
+
+        // Back Workshop Brick/Plaster Wall
+        ctx.fillStyle = '#1e293b';
+        ctx.strokeStyle = '#090d16';
+        ctx.lineWidth = 3;
+        ctx.fillRect(shedX + 18, shedY + 36, shedW - 36, shedH - 36);
+        ctx.strokeRect(shedX + 18, shedY + 36, shedW - 36, shedH - 36);
+
+        // Hanging Colorful Vinyl Sticker Rolls on the Garage Wall
+        const rollColors = ['#ec4899', '#a855f7', '#3b82f6', '#22c55e', '#eab308', '#ef4444'];
+        rollColors.forEach((rc, i) => {
+          const rx = shedX + 55 + i * 52;
+          const ry = shedY + 62;
+          ctx.fillStyle = '#090d16';
+          ctx.fillRect(rx - 4, ry - 4, 38, 16);
+          ctx.fillStyle = rc;
+          ctx.fillRect(rx, ry, 30, 10);
+        });
+
+        // Garage Neon Sign on Inside Wall
+        ctx.save();
+        ctx.fillStyle = '#090d16';
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.roundRect(shedX + 390, shedY + 52, 240, 34, 8);
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = '#fde047';
+        ctx.font = '900 13px "Noto Sans Sinhala", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('✨ ස්ටිකර් කඩේ • VIP BUS ART ✨', shedX + 510, shedY + 74);
+        ctx.restore();
+
+        // Steel Pillars
+        ctx.fillStyle = '#475569';
+        ctx.fillRect(shedX + 14, shedY + 32, 12, shedH - 32);
+        ctx.fillRect(shedX + shedW - 26, shedY + 32, 12, shedH - 32);
+
+        // Corrugated Tin Awning Roof (ටකරන් වහලය)
+        ctx.fillStyle = '#9a3412';
+        ctx.beginPath();
+        ctx.moveTo(shedX - 12, shedY + 36);
+        ctx.lineTo(shedX + 20, shedY);
+        ctx.lineTo(shedX + shedW - 20, shedY);
+        ctx.lineTo(shedX + shedW + 12, shedY + 36);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        // Corrugated Roof Ribs
+        ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+        ctx.lineWidth = 2;
+        for (let rx = shedX + 15; rx < shedX + shedW - 10; rx += 22) {
+          ctx.beginPath();
+          ctx.moveTo(rx, shedY + 2);
+          ctx.lineTo(rx - 6, shedY + 34);
+          ctx.stroke();
+        }
+
+        // Sri Lankan Roadside Milestone ("කොළඹ 42 KM") on Left
+        ctx.fillStyle = '#f8fafc';
+        ctx.strokeStyle = '#090d16';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.roundRect(28, 228, 52, 54, [24, 24, 2, 2]);
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = '#eab308';
+        ctx.fillRect(29, 229, 50, 18);
+        ctx.fillStyle = '#090d16';
+        ctx.font = '800 8px "Noto Sans Sinhala", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('කොළඹ', 54, 256);
+        ctx.font = '900 9px "Inter", sans-serif';
+        ctx.fillText('42 KM', 54, 270);
+
+        // 3. ROADSIDE SHOULDER & ASPHALT TAR ROAD
+        // Gravel shoulder
+        ctx.fillStyle = '#92400e';
+        ctx.fillRect(0, 278, 1180, 24);
+
+        // Main Tar Road
+        const roadGrad = ctx.createLinearGradient(0, 298, 0, 440);
+        roadGrad.addColorStop(0, '#334155');
+        roadGrad.addColorStop(0.25, '#1e293b');
+        roadGrad.addColorStop(1, '#0f172a');
+        ctx.fillStyle = roadGrad;
+        ctx.fillRect(0, 298, 1180, 142);
+
+        // White Dashed Road Center Line
+        ctx.fillStyle = '#e2e8f0';
+        for (let lx = 20; lx < 1180; lx += 95) {
+          ctx.fillRect(lx, 368, 52, 6);
+        }
+      }
+
+      function drawCoconutTree(x, baseY, scale, lean) {
+        ctx.save();
+        ctx.translate(x, baseY);
+        ctx.scale(scale, scale);
+
+        // Curved trunk
+        ctx.strokeStyle = '#57534e';
+        ctx.lineWidth = 11;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.quadraticCurveTo(lean * 90, -75, lean * 140, -155);
+        ctx.stroke();
+
+        // Palm fronds at top
+        const topX = lean * 140;
+        const topY = -155;
+        ctx.translate(topX, topY);
+        ctx.strokeStyle = '#15803d';
+        ctx.lineWidth = 6;
+        const angles = [-2.6, -2.0, -1.2, -0.4, 0.3, 1.0];
+        angles.forEach((ang) => {
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.quadraticCurveTo(Math.cos(ang) * 35, Math.sin(ang) * 28 - 10, Math.cos(ang) * 62, Math.sin(ang) * 45 + 12);
+          ctx.stroke();
+        });
+        ctx.restore();
+      }
+
+      /* =====================================================================
+       * 7. SINGLE LARGE SIDE BUS RENDERER (WITH ANIMATED VINYL ROLL & DECALS)
+       * ===================================================================== */
+      function drawSingleSideBus() {
+        const j = state.job;
+        const d = state.busDesign;
+
+        const busW = 735;
+        const busH = 225;
+        const bx = j.busX;
+        const by = 112 + j.busBounce;
+
+        ctx.save();
+        ctx.translate(bx, by);
+
+        const bodyH = 182;
+
+        // Ground shadow under bus
+        ctx.fillStyle = 'rgba(2, 6, 23, 0.65)';
+        ctx.beginPath();
+        ctx.ellipse(busW * 0.5, bodyH + 34, busW * 0.46, 14, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 1. Clip to Ashok Leyland Side Profile (Facing Right)
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(10, 14);
+        ctx.lineTo(busW - 75, 14);
+        ctx.lineTo(busW - 10, 6); // Classic Leyland raised front roof peak
+        ctx.lineTo(busW - 6, bodyH);
+        ctx.lineTo(10, bodyH);
+        ctx.closePath();
+        ctx.clip();
+
+        // Base Coat (Either unpainted white/primer OR player's chosen spray paint color)
+        const chosenCol = BUS_COLORS.find((c) => c.id === d.colorId);
+        const bodyGrad = ctx.createLinearGradient(0, 6, 0, bodyH);
+        if (chosenCol) {
+          bodyGrad.addColorStop(0, chosenCol.hex);
+          bodyGrad.addColorStop(0.22, chosenCol.dark);
+          bodyGrad.addColorStop(0.5, chosenCol.hex);
+          bodyGrad.addColorStop(1, chosenCol.dark);
+        } else {
+          // Unpainted factory white/grey primer bus
+          bodyGrad.addColorStop(0, '#f8fafc');
+          bodyGrad.addColorStop(0.25, '#e2e8f0');
+          bodyGrad.addColorStop(0.55, '#f1f5f9');
+          bodyGrad.addColorStop(1, '#cbd5e1');
+        }
+        ctx.fillStyle = bodyGrad;
+        ctx.fillRect(0, 0, busW, bodyH);
+
+        // Lower Side Body Panel (below passenger windows)
+        const panelY = 88;
+        const panelH = bodyH - panelY;
+
+        // 2. Animated Full-Side Vinyl Sticker Roll Application
+        const chosenSticker = STICKER_ROLLS.find((s) => s.id === d.stickerId);
+        if (chosenSticker) {
+          const revealW = busW * d.wrapAnimProgress;
+          ctx.save();
+          ctx.beginPath();
+          ctx.rect(0, panelY, revealW, panelH);
+          ctx.clip();
+
+          const src = chosenSticker.loaded && chosenSticker.imgObj
+            ? chosenSticker.imgObj
+            : chosenSticker.fallbackCanvas;
+          ctx.drawImage(src, 0, panelY, busW, panelH);
+
+          // Blend slightly with the selected spray paint color if painted
+          if (chosenCol) {
+            ctx.globalCompositeOperation = 'color';
+            ctx.globalAlpha = 0.35;
+            ctx.fillStyle = chosenCol.hex;
+            ctx.fillRect(0, panelY, busW, panelH);
+          }
+          ctx.restore();
+
+          // Draw Moving Squeegee / Vinyl Roll Bar while sticker is unrolling!
+          if (d.wrapAnimProgress < 0.99) {
+            ctx.fillStyle = '#fde047';
+            ctx.fillRect(revealW - 4, panelY, 8, panelH);
+          }
+        }
+
+        // 3. Draw Cutout Graphic Decal on the Bus Side
+        if (d.decalId) {
+          drawBusSideDecalArt(ctx, d.decalId, busW * 0.66, panelY + panelH * 0.48, d.decalPopScale);
+        }
+
+        // Signature Black Side Rub-Rail Strip
+        const rubY = panelY + panelH * 0.46;
+        ctx.fillStyle = '#090d16';
+        ctx.fillRect(16, rubY, busW - 36, 3.5);
+
+        // 4. Draw Player's Applied Sinhala Bus Name on the Side & Top Visor
+        if (d.busName) {
+          ctx.save();
+          ctx.font = '900 30px "Noto Sans Sinhala", "Gemunu Libre", sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.lineWidth = 6;
+          ctx.strokeStyle = '#090d16';
+          ctx.shadowColor = 'rgba(0,0,0,0.85)';
+          ctx.shadowBlur = 8;
+
+          const nameX = busW * 0.42;
+          const nameY = panelY + panelH * 0.32;
+          ctx.strokeText(d.busName, nameX, nameY);
+
+          const textGrad = ctx.createLinearGradient(0, nameY - 16, 0, nameY + 16);
+          textGrad.addColorStop(0, '#ffffff');
+          textGrad.addColorStop(0.5, '#fef08a');
+          textGrad.addColorStop(1, '#f97316');
+          ctx.fillStyle = textGrad;
+          ctx.fillText(d.busName, nameX, nameY);
+          ctx.restore();
+        }
+
+        // 5. Passenger Windows (7 Tinted Sliding Windows + Driver Cabin Door + Front Windshield Edge)
+        const winY = 26;
+        const winH = 56;
+        const winStartX = 20;
+        const winTotalW = busW * 0.81 - winStartX;
+        const numWins = 7;
+        const gap = 6;
+        const singleW = (winTotalW - gap * (numWins - 1)) / numWins;
+
+        for (let i = 0; i < numWins; i++) {
+          const wx = winStartX + i * (singleW + gap);
+          ctx.fillStyle = '#090d16';
+          ctx.strokeStyle = '#475569';
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.roundRect(wx, winY, singleW, winH, 5);
+          ctx.fill();
+          ctx.stroke();
+
+          // Window sliding frame bars
+          ctx.strokeStyle = '#334155';
+          ctx.lineWidth = 1.4;
+          ctx.beginPath();
+          ctx.moveTo(wx + 2, winY + 16);
+          ctx.lineTo(wx + singleW - 2, winY + 16);
+          ctx.moveTo(wx + singleW * 0.5, winY + 16);
+          ctx.lineTo(wx + singleW * 0.5, winY + winH - 2);
+          ctx.stroke();
+
+          // Glass reflection slash
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
+          ctx.beginPath();
+          ctx.moveTo(wx + 5, winY + 4);
+          ctx.lineTo(wx + singleW * 0.38, winY + 4);
+          ctx.lineTo(wx + singleW * 0.18, winY + winH - 4);
+          ctx.lineTo(wx + 5, winY + winH - 4);
+          ctx.closePath();
+          ctx.fill();
+        }
+
+        // Driver Door & Window on Right-Front
+        const drvX = busW * 0.825;
+        const drvW = 68;
+        ctx.strokeStyle = '#090d16';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(drvX, winY, drvW, bodyH - winY - 8);
+        ctx.fillStyle = '#090d16';
+        ctx.beginPath();
+        ctx.roundRect(drvX + 5, winY + 3, drvW - 10, winH - 4, 4);
+        ctx.fill();
+
+        // Front Windshield Side Profile
+        ctx.fillStyle = '#090d16';
+        ctx.beginPath();
+        ctx.roundRect(busW - 44, winY, 34, winH, 4);
+        ctx.fill();
+
+        // Top Roof Marker Lights
+        for (let lx = 26; lx < busW - 26; lx += 34) {
+          ctx.fillStyle = (lx / 34) % 2 === 0 ? '#fde047' : '#f43f5e';
+          ctx.beginPath();
+          ctx.arc(lx, 15, 2.8, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.restore(); // End Bus Body Clip
+
+        // Crisp Outer Bus Body Outline
+        ctx.strokeStyle = '#090d16';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(10, 14);
+        ctx.lineTo(busW - 75, 14);
+        ctx.lineTo(busW - 10, 6);
+        ctx.lineTo(busW - 6, bodyH);
+        ctx.lineTo(10, bodyH);
+        ctx.closePath();
+        ctx.stroke();
+
+        // Front Headlight Glow on Right Bumper
+        ctx.fillStyle = '#fef08a';
+        ctx.fillRect(busW - 8, bodyH - 28, 5, 16);
+
+        // 6. Wheel Arches & Rotating 10-Lug Chrome Wheels
+        const wheelY = bodyH + 4;
+        const wheelR = 38;
+        [busW * 0.27, busW * 0.78].forEach((wx) => {
+          ctx.fillStyle = '#020617';
+          ctx.beginPath();
+          ctx.arc(wx, wheelY, wheelR + 6, Math.PI, 0);
+          ctx.fill();
+
+          drawRotatingChromeWheel(ctx, wx, wheelY, wheelR, j.wheelAngle, chosenCol ? chosenCol.hex : '#64748b');
+        });
+
+        ctx.restore();
+      }
+
+      function drawBusSideDecalArt(targetCtx, decalId, x, y, popScale = 1) {
+        targetCtx.save();
+        targetCtx.translate(x, y);
+        targetCtx.scale(popScale, popScale);
+
+        if (decalId === 'parrot') {
+          // Colorful Scarlet & Blue Macaw Parrot with Tribal Flame Wing
+          targetCtx.fillStyle = '#2563eb';
+          targetCtx.beginPath();
+          targetCtx.moveTo(-8, 10);
+          targetCtx.quadraticCurveTo(-28, 38, -36, 56);
+          targetCtx.quadraticCurveTo(-14, 38, 4, 14);
+          targetCtx.closePath();
+          targetCtx.fill();
+
+          const wingG = targetCtx.createLinearGradient(-24, -18, 22, 20);
+          wingG.addColorStop(0, '#ef4444');
+          wingG.addColorStop(0.5, '#eab308');
+          wingG.addColorStop(1, '#22c55e');
+          targetCtx.fillStyle = wingG;
+          targetCtx.beginPath();
+          targetCtx.ellipse(-4, 2, 26, 15, -0.35, 0, Math.PI * 2);
+          targetCtx.fill();
+          targetCtx.lineWidth = 2;
+          targetCtx.strokeStyle = '#090d16';
+          targetCtx.stroke();
+
+          targetCtx.fillStyle = '#dc2626';
+          targetCtx.beginPath();
+          targetCtx.arc(12, -12, 13, 0, Math.PI * 2);
+          targetCtx.fill();
+          targetCtx.stroke();
+
+          targetCtx.fillStyle = '#ffffff';
+          targetCtx.beginPath();
+          targetCtx.arc(16, -13, 5.5, 0, Math.PI * 2);
+          targetCtx.fill();
+          targetCtx.fillStyle = '#090d16';
+          targetCtx.beginPath();
+          targetCtx.arc(17, -13, 2.5, 0, Math.PI * 2);
+          targetCtx.fill();
+
+          targetCtx.fillStyle = '#fef08a';
+          targetCtx.beginPath();
+          targetCtx.moveTo(22, -16);
+          targetCtx.quadraticCurveTo(32, -12, 26, -3);
+          targetCtx.lineTo(20, -8);
+          targetCtx.closePath();
+          targetCtx.fill();
+          targetCtx.stroke();
+        } else if (decalId === 'peacock') {
+          // Royal Peacock Feather Fan & Mandala
+          for (let a = -1.2; a <= 1.2; a += 0.4) {
+            targetCtx.save();
+            targetCtx.rotate(a);
+            targetCtx.fillStyle = '#059669';
+            targetCtx.beginPath();
+            targetCtx.ellipse(0, -22, 8, 20, 0, 0, Math.PI * 2);
+            targetCtx.fill();
+            targetCtx.fillStyle = '#38bdf8';
+            targetCtx.beginPath();
+            targetCtx.arc(0, -28, 5, 0, Math.PI * 2);
+            targetCtx.fill();
+            targetCtx.fillStyle = '#fde047';
+            targetCtx.beginPath();
+            targetCtx.arc(0, -28, 2.5, 0, Math.PI * 2);
+            targetCtx.fill();
+            targetCtx.restore();
+          }
+          targetCtx.fillStyle = '#1d4ed8';
+          targetCtx.beginPath();
+          targetCtx.ellipse(0, 4, 12, 18, 0, 0, Math.PI * 2);
+          targetCtx.fill();
+        } else if (decalId === 'lion') {
+          // Golden Sinhala Lion Crest Shield
+          targetCtx.fillStyle = '#dc2626';
+          targetCtx.strokeStyle = '#fde047';
+          targetCtx.lineWidth = 3;
+          targetCtx.beginPath();
+          targetCtx.arc(0, 0, 26, 0, Math.PI * 2);
+          targetCtx.fill();
+          targetCtx.stroke();
+          targetCtx.font = '28px sans-serif';
+          targetCtx.textAlign = 'center';
+          targetCtx.textBaseline = 'middle';
+          targetCtx.fillText('🦁', 0, 2);
+        } else if (decalId === 'flames') {
+          // Hot Rod Neon Tribal Flames
+          const fg = targetCtx.createLinearGradient(-50, -15, 35, 18);
+          fg.addColorStop(0, '#fde047');
+          fg.addColorStop(0.5, '#f97316');
+          fg.addColorStop(1, '#ec4899');
+          targetCtx.fillStyle = fg;
+          targetCtx.strokeStyle = '#ffffff';
+          targetCtx.lineWidth = 2;
+          targetCtx.beginPath();
+          targetCtx.moveTo(30, 0);
+          targetCtx.quadraticCurveTo(0, -28, -45, -14);
+          targetCtx.quadraticCurveTo(-15, -2, -55, 6);
+          targetCtx.quadraticCurveTo(-12, 12, -38, 24);
+          targetCtx.quadraticCurveTo(5, 22, 30, 0);
+          targetCtx.fill();
+          targetCtx.stroke();
+        }
+
+        targetCtx.restore();
+      }
+
+      function drawRotatingChromeWheel(targetCtx, cx, cy, r, angle, hubColor) {
+        targetCtx.save();
+        targetCtx.translate(cx, cy);
+        targetCtx.rotate(angle);
+
+        // Rubber tire
+        targetCtx.fillStyle = '#0f172a';
+        targetCtx.strokeStyle = '#020617';
+        targetCtx.lineWidth = 3;
+        targetCtx.beginPath();
+        targetCtx.arc(0, 0, r, 0, Math.PI * 2);
+        targetCtx.fill();
+        targetCtx.stroke();
+
+        // Chrome Rim
+        const rimR = r * 0.62;
+        const rimG = targetCtx.createRadialGradient(-3, -3, 2, 0, 0, rimR);
+        rimG.addColorStop(0, '#ffffff');
+        rimG.addColorStop(0.6, '#cbd5e1');
+        rimG.addColorStop(1, '#475569');
+        targetCtx.fillStyle = rimG;
+        targetCtx.beginPath();
+        targetCtx.arc(0, 0, rimR, 0, Math.PI * 2);
+        targetCtx.fill();
+
+        // 10 Chrome Lug Holes
+        for (let i = 0; i < 10; i++) {
+          const a = (i / 10) * Math.PI * 2;
+          targetCtx.fillStyle = '#090d16';
+          targetCtx.beginPath();
+          targetCtx.arc(Math.cos(a) * (rimR * 0.68), Math.sin(a) * (rimR * 0.68), 2.8, 0, Math.PI * 2);
+          targetCtx.fill();
+        }
+
+        // Hub Cap
+        targetCtx.fillStyle = hubColor;
+        targetCtx.beginPath();
+        targetCtx.arc(0, 0, r * 0.24, 0, Math.PI * 2);
+        targetCtx.fill();
+        targetCtx.strokeStyle = '#ffffff';
+        targetCtx.lineWidth = 1.5;
+        targetCtx.stroke();
+
+        targetCtx.restore();
+      }
+
+      /* =====================================================================
+       * 8. ANIMATED CUSTOMER CHARACTER WALKING UP & SPEAKING
+       * ===================================================================== */
+      function drawCustomerCharacter() {
+        const j = state.job;
+        if (j.phase === 'bus_arriving' && j.busX < 180) return;
+
+        const ch = j.custChar;
+        const isWalking = j.phase === 'customer_walking' || j.phase === 'inspecting';
+        const walkBob = isWalking ? Math.abs(Math.sin(state.tick * 0.28)) * 6 : 0;
+        const cx = j.custX;
+        const cy = 262 - walkBob;
+
+        ctx.save();
+        ctx.translate(cx, cy);
+
+        // Ground shadow
+        ctx.fillStyle = 'rgba(2, 6, 23, 0.55)';
+        ctx.beginPath();
+        ctx.ellipse(0, 92 + walkBob, 28, 8, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Sarong (සරම) with checkered pattern
+        ctx.fillStyle = ch.sarong;
+        ctx.strokeStyle = '#090d16';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.roundRect(-20, 34, 40, 54, 6);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.strokeStyle = 'rgba(255,255,255,0.22)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(-18, 52);
+        ctx.lineTo(18, 52);
+        ctx.moveTo(-18, 70);
+        ctx.lineTo(18, 70);
+        ctx.moveTo(0, 35);
+        ctx.lineTo(0, 86);
+        ctx.stroke();
+
+        // Shirt Torso & Gold Chain
+        ctx.fillStyle = ch.shirt;
+        ctx.strokeStyle = '#090d16';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.roundRect(-24, -12, 48, 50, 12);
+        ctx.fill();
+        ctx.stroke();
+
+        // Gold Chain on Mudalali
+        ctx.strokeStyle = '#fde047';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.arc(0, -8, 10, 0.2, Math.PI - 0.2);
+        ctx.stroke();
+
+        // Animated Right Arm (Waves when talking, crossed when waiting, raised when happy/angry)
+        ctx.save();
+        ctx.translate(22, 2);
+        if (j.custMood === 'talking') {
+          ctx.rotate(-0.4 + Math.sin(state.tick * 0.22) * 0.25);
+        } else if (j.custMood === 'happy') {
+          ctx.rotate(-0.9);
+        } else if (j.custMood === 'angry') {
+          ctx.rotate(-0.7 + Math.sin(state.tick * 0.45) * 0.35);
+        } else {
+          ctx.rotate(0.25);
+        }
+        ctx.fillStyle = ch.skin;
+        ctx.strokeStyle = '#090d16';
+        ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        ctx.roundRect(0, -6, 26, 11, 5);
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+
+        // Head & Hair
+        ctx.fillStyle = ch.skin;
+        ctx.strokeStyle = '#090d16';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.arc(0, -32, 20, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        // Hair
+        ctx.fillStyle = '#0f172a';
+        ctx.beginPath();
+        ctx.arc(0, -36, 20, Math.PI, 0);
+        ctx.fill();
+
+        // Eyes & Eyebrows
+        ctx.fillStyle = '#090d16';
+        ctx.beginPath();
+        ctx.arc(-7, -34, 2.5, 0, Math.PI * 2);
+        ctx.arc(7, -34, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (j.custMood === 'angry') {
+          ctx.strokeStyle = '#090d16';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          ctx.moveTo(-13, -41);
+          ctx.lineTo(-3, -37);
+          ctx.moveTo(13, -41);
+          ctx.lineTo(3, -37);
+          ctx.stroke();
+        }
+
+        // Mustache
+        if (ch.mustache) {
+          ctx.fillStyle = '#090d16';
+          ctx.beginPath();
+          ctx.ellipse(0, -25, 10, 3.5, 0, Math.PI, 0);
+          ctx.fill();
+        }
+
+        // Animated Mouth (Talks during order briefing!)
+        ctx.fillStyle = '#090d16';
+        if (j.phase === 'order_briefing') {
+          const openH = 2 + Math.abs(Math.sin(state.tick * 0.32)) * 5;
+          ctx.beginPath();
+          ctx.ellipse(0, -20, 5, openH, 0, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (j.custMood === 'happy') {
+          ctx.strokeStyle = '#090d16';
+          ctx.lineWidth = 2.2;
+          ctx.beginPath();
+          ctx.arc(0, -22, 6, 0.1, Math.PI - 0.1);
+          ctx.stroke();
+        } else if (j.custMood === 'angry') {
+          ctx.strokeStyle = '#090d16';
+          ctx.lineWidth = 2.2;
+          ctx.beginPath();
+          ctx.arc(0, -16, 6, Math.PI + 0.2, -0.2);
+          ctx.stroke();
+        } else {
+          ctx.fillRect(-5, -20, 10, 2.2);
+        }
+
+        // Name Tag Below Character
+        ctx.fillStyle = 'rgba(9, 13, 22, 0.85)';
+        ctx.beginPath();
+        ctx.roundRect(-48, 94, 96, 20, 6);
+        ctx.fill();
+        ctx.fillStyle = '#fde047';
+        ctx.font = '800 10px "Noto Sans Sinhala", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(ch.name, 0, 108);
+
+        ctx.restore();
+      }
+
+      /* =====================================================================
+       * 9. DELIVERY INSPECTION & GAME LOOP
+       * ===================================================================== */
+      function showReactionPopup(emoji, mainQuote, subText, bgClass = 'bg-amber-300') {
+        reactionEmoji.textContent = emoji;
+        reactionSinhalaText.textContent = `"${mainQuote}"`;
+        reactionSubText.textContent = subText;
+        reactionBubble.className = `pointer-events-none absolute bottom-4 left-4 sm:left-48 z-30 max-w-[340px] sm:max-w-[430px] ${bgClass} text-slate-950 border-4 border-slate-950 rounded-3xl px-4 py-3 shadow-2xl transition-all duration-300 opacity-100 scale-100`;
+
+        clearTimeout(reactionBubble._timer);
+        reactionBubble._timer = setTimeout(() => {
+          reactionBubble.classList.remove('opacity-100', 'scale-100');
+          reactionBubble.classList.add('opacity-0', 'scale-75');
+        }, 3600);
+      }
+
+      function handleDeliverBus() {
+        const j = state.job;
+        const d = state.busDesign;
+        if (state.gameOver) return;
+        if (j.phase === 'order_briefing') {
+          startWorkingPhase();
+        }
+        if (j.phase !== 'working') return;
+
+        customerOrderBubble.classList.add('hidden');
+        workHudBar.classList.add('hidden');
+        j.phase = 'inspecting';
+
+        const colorOk = d.colorId === j.reqColorId;
+        const stickerOk = d.stickerId === j.reqStickerId;
+        const decalOk = d.decalId === j.reqDecalId;
+        const nameOk = normalizeText(d.busName) === normalizeText(j.reqBusName);
+
+        if (colorOk && stickerOk && decalOk && nameOk) {
+          j.custMood = 'happy';
+          const memoryBonus = j.usedPeek ? 0 : 500;
+          const speedBonus = Math.round((j.workTimeLeft / j.workMaxTime) * 600);
+          const earned = j.reward + memoryBonus + speedBonus;
+
+          state.cash += earned;
+          state.score += earned * 2;
+          state.busesServed++;
+          updateTopHud();
+
+          playBusHornCelebration();
+          spawnGarageParticles('#4ade80', 40, 'sparkle');
+          showReactionPopup(
+            '🤩',
+            'සුපිරි වැඩක් බාස්! මම කියපු විදිහම මතක තියාගෙන ලස්සනටම ගහලා තියෙනවා!',
+            `+Rs. ${earned.toLocaleString()} ${memoryBonus > 0 ? '• 🧠 MEMORY MASTER BONUS (+Rs.500)!' : ''}`,
+            'bg-emerald-300'
+          );
+
+          setTimeout(() => {
+            j.phase = 'bus_leaving';
+          }, 1300);
+        } else {
+          // Customer gets angry and tells you what you forgot or got wrong!
+          state.strikes++;
+          j.custMood = 'angry';
+          updateTopHud();
+
+          const mistakes = [];
+          if (!colorOk) mistakes.push('පාට');
+          if (!stickerOk) mistakes.push('ස්ටිකරේ');
+          if (!decalOk) mistakes.push('ඩිසයින් කෑල්ල');
+          if (!nameOk) mistakes.push('බස් නම');
+
+          playAngrySound();
+          showReactionPopup(
+            '😡',
+            `මොන විකාරයක්ද ඕයි මේ? මම කියපු (${mistakes.join(', ')}) වැරදියිනේ!`,
+            `STRIKE ${state.strikes}/${state.maxStrikes} • වැරදුණු දේවල්: ${mistakes.join(' / ')}`,
+            'bg-red-400'
+          );
+
+          if (state.strikes >= state.maxStrikes) {
+            setTimeout(triggerGameOver, 1500);
+          } else {
+            setTimeout(() => {
+              j.phase = 'bus_leaving';
+            }, 1600);
+          }
+        }
+      }
+
+      function triggerGameOver() {
+        state.gameOver = true;
+        document.getElementById('finalScoreText').textContent = state.score.toLocaleString();
+        document.getElementById('finalCashText').textContent = `Rs. ${state.cash.toLocaleString()}`;
+        document.getElementById('finalServedText').textContent = state.busesServed;
+        gameOverModal.classList.remove('opacity-0', 'pointer-events-none');
+      }
+
+      function restartShopGame() {
+        state.gameOver = false;
+        state.score = 0;
+        state.cash = 2500;
+        state.busesServed = 0;
+        state.strikes = 0;
+        gameOverModal.classList.add('opacity-0', 'pointer-events-none');
+        spawnNextBusCustomer();
+      }
+
+      function updateSimulation(dt) {
+        if (state.inIntro || state.gameOver) return;
+
+        const j = state.job;
+        const d = state.busDesign;
+
+        // Smoothly animate vinyl sticker unrolling across bus side
+        if (d.wrapAnimProgress < 1) {
+          d.wrapAnimProgress = Math.min(1, d.wrapAnimProgress + dt * 2.2);
+        }
+        if (d.decalPopScale > 1) {
+          d.decalPopScale = Math.max(1, d.decalPopScale - dt * 2.5);
+        }
+
+        if (j.phase === 'bus_arriving') {
+          const dist = j.targetBusX - j.busX;
+          j.busX += Math.max(180, dist * 4.2) * dt;
+          j.wheelAngle += dt * 9;
+          j.busBounce = Math.sin(state.tick * 0.45) * 2.5;
+
+          if (j.busX >= j.targetBusX) {
+            j.busX = j.targetBusX;
+            j.busBounce = 0;
+            j.phase = 'customer_walking';
+            j.custX = j.busX + 580; // Steps out of front door
+          }
+        } else if (j.phase === 'customer_walking') {
+          j.custX -= 260 * dt;
+          if (j.custX <= j.targetCustX) {
+            j.custX = j.targetCustX;
+            j.phase = 'order_briefing';
+            j.custMood = 'talking';
+            document.getElementById('memoryStatusBadge').textContent = '🧠 හොඳට මතක තියාගන්න!';
+            customerOrderBubble.classList.remove('hidden');
+          }
+        } else if (j.phase === 'order_briefing') {
+          j.briefingTimeLeft = Math.max(0, j.briefingTimeLeft - dt);
+          const pct = (j.briefingTimeLeft / j.briefingMaxTime) * 100;
+          memorizeProgressFill.style.width = `${pct}%`;
+
+          if (j.briefingTimeLeft <= 0) {
+            startWorkingPhase();
+          }
+        } else if (j.phase === 'working') {
+          j.workTimeLeft = Math.max(0, j.workTimeLeft - dt);
+          const pct = (j.workTimeLeft / j.workMaxTime) * 100;
+          patienceBarFill.style.width = `${pct}%`;
+          timerTextDisplay.textContent = `${Math.ceil(j.workTimeLeft)}s`;
+
+          if (j.workTimeLeft <= 0) {
+            state.strikes++;
+            j.custMood = 'angry';
+            j.phase = 'bus_leaving';
+            workHudBar.classList.add('hidden');
+            customerOrderBubble.classList.add('hidden');
+            updateTopHud();
+
+            playAngrySound();
+            showReactionPopup(
+              '🤬',
+              'වෙලාව කෑවා විතරයි! ස්ටිකරයක් ගහගන්න පැයක් යනවද බන්?',
+              `STRIKE ${state.strikes}/${state.maxStrikes} • වෙලාව ඉවරයි!`,
+              'bg-red-400'
+            );
+
+            if (state.strikes >= state.maxStrikes) {
+              setTimeout(triggerGameOver, 1400);
+            }
+          }
+        } else if (j.phase === 'bus_leaving') {
+          j.busX += 460 * dt;
+          j.wheelAngle += dt * 11;
+          j.busBounce = Math.sin(state.tick * 0.5) * 2;
+          if (j.busX > 1260) {
+            spawnNextBusCustomer();
+          }
+        }
+      }
+
+      function renderScene() {
+        ctx.clearRect(0, 0, 1180, 440);
+        drawRoadsideEnvironment();
+        drawSingleSideBus();
+        drawCustomerCharacter();
+
+        // Render Spray & Sparkle Particles
+        for (let i = state.particles.length - 1; i >= 0; i--) {
+          const p = state.particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.12;
+          p.alpha -= 0.025;
+          if (p.alpha <= 0) {
+            state.particles.splice(i, 1);
+            continue;
+          }
+          ctx.save();
+          ctx.globalAlpha = p.alpha;
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+
+      /* =====================================================================
+       * 10. EVENT LISTENERS & STARTUP
+       * ===================================================================== */
+      gotItStartBtn.addEventListener('click', startWorkingPhase);
+      askAgainBtn.addEventListener('click', peekAtOrderAgain);
+      deliverBusBtn.addEventListener('click', handleDeliverBus);
+      document.getElementById('restartGameBtn').addEventListener('click', restartShopGame);
+
+      applyTextBtn.addEventListener('click', () => {
+        if (state.job.phase === 'order_briefing') startWorkingPhase();
+        if (state.job.phase !== 'working') return;
+        state.busDesign.busName = normalizeText(busTextInput.value);
+        playDecalStampSound();
+        spawnGarageParticles('#facc15', 18, 'sparkle');
+        renderQuickNameChips();
+      });
+
+      busTextInput.addEventListener('input', () => {
+        if (state.job.phase === 'order_briefing') startWorkingPhase();
+        state.busDesign.busName = normalizeText(busTextInput.value);
+        renderQuickNameChips();
+      });
+
+      busTextInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          applyTextBtn.click();
+        }
+      });
+
+      document.getElementById('muteBtn').addEventListener('click', (e) => {
+        isMuted = !isMuted;
+        e.currentTarget.textContent = isMuted ? '🔇' : '🔊';
+      });
+
+      function dismissIntroSplash() {
+        if (!state.inIntro) return;
+        state.inIntro = false;
+        const splash = document.getElementById('introSplash');
+        splash.classList.add('opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+          splash.style.display = 'none';
+          spawnNextBusCustomer();
+        }, 650);
+      }
+
+      document.getElementById('introSplash').addEventListener('click', () => {
+        ensureAudio();
+        dismissIntroSplash();
+      });
+
+      function gameLoop(now) {
+        const dt = Math.min(0.1, (now - state.lastTimestamp) / 1000);
+        state.lastTimestamp = now;
+        state.tick++;
+
+        updateSimulation(dt);
+        renderScene();
+
+        requestAnimationFrame(gameLoop);
+      }
+
+      window.onload = function () {
+        preloadStickerAssets();
+        renderAllToolButtons();
+
+        const introBar = document.getElementById('introProgressBar');
+        setTimeout(() => { if (introBar) introBar.style.width = '75%'; }, 400);
+        setTimeout(() => { if (introBar) introBar.style.width = '100%'; }, 1400);
+        setTimeout(() => {
+          dismissIntroSplash();
+        }, 2300);
+
+        requestAnimationFrame(gameLoop);
+      };
+    })();
+  </script>
+</body>
+</html>
